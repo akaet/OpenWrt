@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 修改默认IP
-# sed -i 's/192.168.1.1/10.0.0.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate
 
 # 更改默认 Shell 为 zsh
 # sed -i 's/\/bin\/ash/\/usr\/bin\/zsh/g' package/base-files/files/etc/passwd
@@ -33,7 +33,8 @@ git clone --depth=1 https://github.com/Jason6111/luci-app-netdata package/luci-a
 # git_sparse_clone master https://github.com/syb999/openwrt-19.07.1 package/network/services/msd_lite
 
 # 科学上网插件
-git clone --depth=1 -b main https://github.com/fw876/helloworld package/luci-app-ssr-plus
+# rm原因：ERROR: package/luci-app-ssr-plus/mosdns failed to build.
+git clone --depth=1 -b main https://github.com/fw876/helloworld package/luci-app-ssr-plus  && rm -rf package/luci-app-ssr-plus/mosdns
 git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall-packages package/openwrt-passwall
 git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall package/luci-app-passwall
 git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall2 package/luci-app-passwall2
@@ -91,7 +92,8 @@ orig_version=$(cat "package/lean/default-settings/files/zzz-default-settings" | 
 sed -i "s/${orig_version}/R${date_version} by Haiibo/g" package/lean/default-settings/files/zzz-default-settings
 
 # 修复 hostapd 报错
-cp -f $GITHUB_WORKSPACE/scripts/011-fix-mbo-modules-build.patch package/network/services/hostapd/patches/011-fix-mbo-modules-build.patch
+# 注释原因：https://github.com/coolsnowwolf/lede/issues/12198#issuecomment-2147244780
+# cp -f $GITHUB_WORKSPACE/scripts/011-fix-mbo-modules-build.patch package/network/services/hostapd/patches/011-fix-mbo-modules-build.patch
 
 # 修复 armv8 设备 xfsprogs 报错
 sed -i 's/TARGET_CFLAGS.*/TARGET_CFLAGS += -DHAVE_MAP_SYNC -D_LARGEFILE64_SOURCE/g' feeds/packages/utils/xfsprogs/Makefile
