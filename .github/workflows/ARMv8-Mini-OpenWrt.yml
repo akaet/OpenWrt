@@ -3,7 +3,7 @@ name: ARMv8 Mini OpenWrt
 on:
   workflow_dispatch:
   schedule:
-    - cron: 0 20 * * *
+    - cron: 0 10 * * 5
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
@@ -242,7 +242,7 @@ jobs:
       uses: ophub/flippy-openwrt-actions@main
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*rootfs.tar.gz
-        PACKAGE_SOC: all
+        PACKAGE_SOC: h28k
         WHOAMI: Haiibo
         KERNEL_VERSION_NAME: 5.15.13_6.1.5
         KERNEL_AUTO_LATEST: true
